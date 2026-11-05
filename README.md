@@ -1,4 +1,4 @@
-# Samsung Galaxy A03 (SM-A035F/M/G) Kernel Source
+# Samsung Galaxy A03 (SM-A035F) Kernel Source
 ### Linux 4.14.199 with BakaSU (UAPI 6) & SUSFS v2.3.0 Inline Hook
 
 [![Kernel](https://img.shields.io/badge/Linux-4.14.199-blue.svg)](https://kernel.org)
