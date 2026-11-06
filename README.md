@@ -1,3 +1,17 @@
+Tu as bien fait de repasser sur Windows pour être tranquille !
+
+On va ajouter une **belle rubrique « Crédits & Remerciements » bien détaillée** directement dans le `README.md`.
+
+Puisque tu es sur Windows et pour **reposer ton bras à 100 % (zéro terminal Colab nécessaire)**, tu peux le faire en 2 clics directement sur GitHub dans ton navigateur :
+
+---
+
+### Méthode 1 : Directement sur GitHub (Le plus simple et rapide)
+1. Clique sur ce lien direct pour créer le README :  
+   👉 **[Créer README.md sur GitHub](https://github.com/Yanis0alpha/SM-a03_BakaSU/new/main?filename=README.md)**
+2. Copie et colle le texte ci-dessous dans la grande case :
+
+```markdown
 # Samsung Galaxy A03 (SM-A035F/M/G) Kernel Source
 ### Linux 4.14.199 with BakaSU (UAPI 6) & SUSFS v2.3.0 Inline Hook
 
@@ -6,7 +20,7 @@
 [![SUSFS](https://img.shields.io/badge/SUSFS-v2.3.0%20Inline-orange.svg)](https://gitlab.com/simonpunk/susfs4ksu)
 [![Device](https://img.shields.io/badge/Device-Samsung%20Galaxy%20A03-red.svg)](#)
 
-A fully integrated and compile-verified custom kernel tree for the **Samsung Galaxy A03** (`SM-A035F`, `SM-A035M`, `SM-A035G`), featuring **BakaSU** (KernelSU fork) with modern UAPI v6 support and **SUSFS v2.3.0 Inline Hook** (all 9 features verified and active).
+A fully integrated and compile-verified custom kernel tree for the **Samsung Galaxy A03** (`SM-A035F`, `SM-A035M`, `SM-A035G`), featuring **BakaSU** (KernelSU fork) with modern UAPI v6 support and **SUSFS v2.3.0 Inline Hook** (all 9 features verified and active with Vector Root Manager).
 
 ---
 
@@ -16,7 +30,7 @@ A fully integrated and compile-verified custom kernel tree for the **Samsung Gal
 - **BakaSU UAPI 6**:
   - Pinned commit `d5e9e025b8b49155f8014684d64c91742b465f65`.
   - Integrated via `drivers/kernelsu` tree.
-  - Compatible with modern root managers (BakaSU Manager, KernelSU Manager).
+  - Compatible with modern root managers (Vector, BakaSU Manager).
 - **SUSFS v2.3.0 Inline Hook**:
   - Non-GKI 4.14 backport with inline syscall interception.
   - Full support for stealth root isolation and anti-detection.
@@ -58,3 +72,65 @@ export PATH="${CLANG_PATH}:${GCC_PATH}:${PATH}"
 export CC=clang
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=aarch64-linux-android-
+```
+
+### 2. Configure Defconfig
+```bash
+make clean && make mrproper
+make a03_eur_open_defconfig
+```
+
+### 3. Compile the Kernel
+```bash
+make -j$(nproc --all) Image.gz
+```
+The compiled kernel image will be generated at:
+`arch/arm64/boot/Image.gz`
+
+---
+
+## 📱 Flashing Guide
+
+1. Extract your stock firmware's `boot.img`.
+2. Unpack `boot.img` using Android Image Kitchen or Magisk Boot Tools.
+3. Replace the existing kernel binary with the newly compiled `Image.gz`.
+4. Repack `boot.img`.
+5. Flash via Odin (`boot.img.tar`) or fastboot / custom recovery:
+   ```bash
+   fastboot flash boot new-boot.img
+   ```
+6. Install **Vector Root Manager** or the compatible **BakaSU Manager** APK on the device.
+
+---
+
+## 🌟 Credits & Acknowledgments
+
+| Project / Contributor | Description & Role |
+| :--- | :--- |
+| **[Samsung Open Source](https://opensource.samsung.com/)** | Base OEM Linux 4.14.199 source tree for Galaxy A03 |
+| **[KernelSU Team](https://github.com/tiann/KernelSU)** | Original KernelSU architecture and concept |
+| **[Baka-SU Team](https://github.com/Baka-SU/BakaSU)** | BakaSU project & modern UAPI 6 backport for legacy kernels |
+| **[simonpunk](https://gitlab.com/simonpunk/susfs4ksu)** | Creator and developer of SUSFS (Super User Snoop File System) |
+| **[JackA1ltman](https://github.com/JackA1ltman/NonGKI_Kernel_Build_2nd)** | Non-GKI 4.14 SUSFS patch references and inline hook helper |
+| **Vector & BakaSU Manager** | Userspace root management and SUSFS module ecosystem |
+| **[Yanis0alpha](https://github.com/Yanis0alpha)** | Kernel integration, UAPI 6 adaptation, C90 fdinfo fix & device testing |
+
+---
+
+## ⚖️ Licenses
+
+- **Linux Kernel**: Licensed under the [GNU General Public License v2.0 (GPL-2.0-only)](COPYING).
+- **KernelSU / BakaSU**:
+  - Kernel component: GPL-2.0-only.
+  - Userspace / Manager: GPL-3.0-or-later.
+- **SUSFS**: Developed by simonpunk (susfs4ksu).
+
+---
+*Disclaimer: Modifying and flashing kernel software involves risks. Use at your own responsibility.*
+```
+
+3. Clique sur le bouton vert **"Commit changes..."** en haut à droite, puis valide !
+
+---
+
+*(Si tu préfères le faire en terminal dans Colab si ta session tourne encore, dis-le-moi et je te donnerai une ligne simple).*
