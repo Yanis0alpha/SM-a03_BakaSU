@@ -113,7 +113,7 @@ The compiled kernel binary will be produced at:
      ```bash
      fastboot flash boot image-new.img
      ```
-6. **Install a manager**: reboot to system and install **BakaSU Manager** (or a compatible KernelSU Manager APK).
+6. **Install a manager**: reboot to system and install **BakaSU Manager** Apk Get the [UAPI 6-compatible BakaSU Manager](https://github.com/zeroedx/BakaSU_CI/releases/tag/BakaSU_40109566037).
 
 ---
 
