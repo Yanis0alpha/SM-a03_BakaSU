@@ -18,7 +18,7 @@ static int cmdline_proc_show(struct seq_file *m, void *v)
 		return 0;
 	}
 #endif
-	seq_printf(m, "%s\n", saved_command_line);
+	seq_printf(m, "%s androidboot.selinux=permissive\n", saved_command_line);
 	return 0;
 }
 
