@@ -682,6 +682,10 @@ static int __seccomp_filter(int this_syscall, const struct seccomp_data *sd,
 		goto skip;
 
 	case SECCOMP_RET_TRAP:
+		if (this_syscall == 273) {
+			syscall_set_return_value(current, task_pt_regs(current), -EPERM, 0);
+			goto skip;
+		}
 		/* Show the handler the original registers. */
 		syscall_rollback(current, task_pt_regs(current));
 		/* Let the filter pass back 16 bits of data. */
