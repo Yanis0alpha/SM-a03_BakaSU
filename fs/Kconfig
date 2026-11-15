@@ -325,3 +325,4 @@ config SPRD_FS_GCOV
 	  Say Y here to enable fs gcov
 
 endmenu
+source "fs/erofs/Kconfig"
