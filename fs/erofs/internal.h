@@ -264,6 +264,8 @@ struct erofs_inode {
 	unsigned char datalayout;
 	unsigned char inode_isize;
 	unsigned int xattr_isize;
+	unsigned short chunkformat;
+	unsigned char chunkbits;
 
 	unsigned int xattr_shared_count;
 	unsigned int *xattr_shared_xattrs;
