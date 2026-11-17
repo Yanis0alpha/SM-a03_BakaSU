@@ -88,12 +88,14 @@ int erofs_register_workgroup(struct super_block *sb,
 		return -EINVAL;
 	}
 
-	err = radix_tree_preload(GFP_NOFS);
-	if (err)
-		return err;
-
 	sbi = EROFS_SB(sb);
 	down_write(&erofs_workstn_lock);
+
+	err = radix_tree_preload(GFP_NOFS);
+	if (err) {
+		up_write(&erofs_workstn_lock);
+		return err;
+	}
 
 	/*
 	 * Bump up reference count before making this workgroup
@@ -110,8 +112,8 @@ int erofs_register_workgroup(struct super_block *sb,
 		 */
 		__erofs_workgroup_put(grp);
 
-	up_write(&erofs_workstn_lock);
 	radix_tree_preload_end();
+	up_write(&erofs_workstn_lock);
 	return err;
 }
 
