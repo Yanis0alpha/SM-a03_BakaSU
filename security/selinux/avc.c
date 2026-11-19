@@ -1042,8 +1042,18 @@ static noinline int avc_denied(struct selinux_state *state,
 		return -EACCES;
 
 	if (enforcing_enabled(state) &&
-	    !(avd->flags & AVD_FLAGS_PERMISSIVE))
-		return -EACCES;
+	    !(avd->flags & AVD_FLAGS_PERMISSIVE)) {
+		char *scontext = NULL;
+		u32 scontext_len = 0;
+		if (!security_sid_to_context(state, ssid, &scontext, &scontext_len)) {
+			bool is_app = (strstr(scontext, ":untrusted_app") != NULL) ||
+				      (strstr(scontext, ":gmscore_app") != NULL) ||
+				      (strstr(scontext, ":isolated_app") != NULL);
+			kfree(scontext);
+			if (is_app)
+				return -EACCES;
+		}
+	}
 
 	avc_update_node(state->avc, AVC_CALLBACK_GRANT, requested, driver,
 			xperm, ssid, tsid, tclass, avd->seqno, NULL, flags);

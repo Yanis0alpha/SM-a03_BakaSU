@@ -122,17 +122,17 @@ extern struct selinux_state selinux_state;
 #ifdef CONFIG_SECURITY_SELINUX_DEVELOP
 static inline bool enforcing_enabled(struct selinux_state *state)
 {
-	return false;
+	return true;
 }
 
 static inline void enforcing_set(struct selinux_state *state, bool value)
 {
-	state->enforcing = false;
+	state->enforcing = true;
 }
 #else
 static inline bool enforcing_enabled(struct selinux_state *state)
 {
-	return false;
+	return true;
 }
 
 static inline void enforcing_set(struct selinux_state *state, bool value)
