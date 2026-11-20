@@ -40,6 +40,7 @@ static int sprd_cpufreq_read_soc_version(char *p_version)
 	char version_default[10] = "-1";
 
 	sprd_kproperty_get("auto/efuse", p_version, version_default);
+	if (!strcmp(p_version, "T606")) strcpy(p_version, "T616");
 	if (!strcmp(p_version, "T610") || !strcmp(p_version, "T618") ||
 	    !strcmp(p_version, "T606") || !strcmp(p_version, "T616") ||
 	    !strcmp(p_version, "T612") || !strcmp(p_version, "T700"))

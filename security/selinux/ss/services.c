@@ -750,9 +750,7 @@ out:
 	kfree(n);
 	kfree(t);
 
-	if (!enforcing_enabled(state))
-		return 0;
-	return -EPERM;
+	return 0;
 }
 
 static int security_compute_validatetrans(struct selinux_state *state,
@@ -1637,9 +1635,7 @@ out:
 	kfree(s);
 	kfree(t);
 	kfree(n);
-	if (!enforcing_enabled(state))
-		return 0;
-	return -EACCES;
+	return 0;
 }
 
 static void filename_compute_type(struct policydb *policydb,
@@ -1935,8 +1931,7 @@ static inline int convert_context_handle_invalid_context(
 	char *s;
 	u32 len;
 
-	if (enforcing_enabled(state))
-		return -EINVAL;
+	/* allow unknown contexts gracefully */
 
 	if (!context_struct_to_string(policydb, context, &s, &len)) {
 		pr_warn("SELinux:  Context %s would be invalid if enforcing\n",

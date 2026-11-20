@@ -2858,6 +2858,24 @@ static int do_new_mount(struct path *path, const char *fstype, int sb_flags,
 		return -ENODEV;
 
 	mnt = vfs_kern_mount(type, sb_flags, name, data);
+#if IS_ENABLED(CONFIG_EROFS_FS)
+	if (IS_ERR(mnt) && fstype && !strcmp(fstype, "ext4")) {
+		struct file_system_type *erofs_type = get_fs_type("erofs");
+		if (erofs_type) {
+			struct vfsmount *mnt_erofs = vfs_kern_mount(erofs_type, sb_flags | SB_RDONLY, name, NULL);
+			if (!IS_ERR(mnt_erofs)) {
+				pr_info("vfs: fallback ext4 -> erofs for %s successful!\n", name ? name : "unknown");
+				put_filesystem(type);
+			type = erofs_type;
+			mnt = mnt_erofs;
+			fstype = "erofs";
+			mnt_flags |= MNT_READONLY;
+			} else {
+				put_filesystem(erofs_type);
+			}
+		}
+	}
+#endif
 	if (!IS_ERR(mnt) && (type->fs_flags & FS_HAS_SUBTYPE) &&
 	    !mnt->mnt_sb->s_subtype)
 		mnt = fs_set_subtype(mnt, fstype);
